@@ -1,72 +1,54 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        nuxt-app
-      </h1>
-      <h2 class="subtitle">
-        My cat&#39;s meow Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div class="app">
+    <div class="page">
+      <header class="header">
+        <logo class="logo" />
+        <h1 class="title">
+          {{ marketName }}
+        </h1>
+      </header>
+      <div class="container">
+        <div class="products">
+          <ul class="products__list">
+            <product-item
+              v-for="(product, index) in allProducts"
+              :key="'product-item-' + index"
+              :product="product"
+            />
+          </ul>
+        </div>
       </div>
     </div>
+    <market-dialog />
   </div>
 </template>
 
 <script>
+import {
+  mapState,
+  mapGetters,
+  mapMutations,
+  mapActions
+} from 'vuex';
+
 import Logo from '~/components/Logo.vue'
+import ProductItem from '~/components/productItem';
+import MarketDialog from '~/components/marketDialog';
 
 export default {
   components: {
-    Logo
+    Logo,
+    ProductItem,
+    MarketDialog
+  },
+  computed: {
+    ...mapGetters('market', [
+      'allProducts',
+      'product',
+      'marketName'
+    ])
   }
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
+<style lang="css" src="./index.css"></style>
